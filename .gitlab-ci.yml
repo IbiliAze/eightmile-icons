@@ -1,0 +1,61 @@
+stages:
+  - test
+  - publish
+
+# Merge requests, `main`, and `v*` tags. A tag publishes; nothing else does.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]/'
+
+# Every job runs on `app-primary`, a shell runner that ignores `image:`. The test job starts its own
+# Node container and runs in it; after_script removes it even when a step fails.
+
+# ---------------------------------------------------------------------------- test
+
+# Formatting, types, every icon in every segment, and the build that is published. `npm test`
+# builds first, so the dist contract is checked against this job's own `dist`.
+test:
+  stage: test
+  tags: [app-primary]
+  before_script:
+    - |
+      docker run -d --name "node-$CI_JOB_ID" -v "$CI_PROJECT_DIR":/app -w /app \
+        -u "$(id -u):$(id -g)" -e HOME=/tmp -e npm_config_cache=/app/.ci/npm node:26.12.1 sleep infinity
+    - node_exec() { docker exec "node-$CI_JOB_ID" "$@"; }
+    - node_exec npm ci --no-fund --no-audit
+  script:
+    - node_exec npm run format:check
+    - node_exec npm run typecheck
+    - node_exec npm test
+  after_script:
+    - docker rm -f "node-$CI_JOB_ID" || true
+  cache:
+    key: { files: [package-lock.json] }
+    paths: [.ci/npm]
+  artifacts:
+    paths: [dist]
+    expire_in: 1 day
+
+# ---------------------------------------------------------------------------- publish
+
+# To this project's package registry, from the tag's own tested build (ADR 0002). The version in
+# package.json must match the tag (v0.1.0 → 0.1.0): the registry refuses a version it already
+# holds. The job's own CI_JOB_TOKEN publishes, so there is no token to store. `dist` is the test
+# job's artifact, so --ignore-scripts skips `prepack`, which would rebuild it with dev dependencies
+# this container does not have.
+publish:
+  stage: publish
+  tags: [app-primary]
+  needs: [test]
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]/'
+  script:
+    - |
+      VERSION=$(sed -n 's/.*"version": "\(.*\)".*/\1/p' package.json | head -1)
+      test "v$VERSION" = "$CI_COMMIT_TAG" || { echo "package is $VERSION, tag is $CI_COMMIT_TAG"; exit 1; }
+    - |
+      docker run --rm -v "$CI_PROJECT_DIR":/pkg -w /pkg -u "$(id -u):$(id -g)" -e HOME=/tmp \
+        -e CI_JOB_TOKEN -e REGISTRY="$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/npm/" node:26.12.1 sh -c \
+        'printf "%s:_authToken=%s\n" "${REGISTRY#https:}" "$CI_JOB_TOKEN" > /tmp/.npmrc && npm publish --ignore-scripts --registry "$REGISTRY" --userconfig /tmp/.npmrc'

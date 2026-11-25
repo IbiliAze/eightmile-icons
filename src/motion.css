@@ -1,0 +1,304 @@
+/*
+ * The motion of @eightmile/icons' dynamic segment. An icon's moving parts carry `data-m="<motion>"`
+ * and their own offsets as `--emi-x`, `--emi-y` (viewBox units), `--emi-r` (deg), `--emi-s` (scale)
+ * and `--emi-d` (delay), all set by `m()` in `motion.ts`. They move while the icon's control is
+ * hovered or has keyboard focus. An icon that sits in no control (an alert's, a status screen's)
+ * stays still, and so does one in a disabled control. The static and cropped segments carry no
+ * `data-m`, so nothing here touches them.
+ *
+ * Every rule that moves anything is inside `prefers-reduced-motion: no-preference`.
+ *
+ * A host the selector does not know (a card, a row) opts in with `data-icon-trigger`.
+ */
+
+:where(:root) {
+  /* How long a part takes to reach its offset, and the spring it gets there on: a damped spring, ζ 0.62, which
+   * overshoots by 8 % and settles. The cubic-bezier is the fallback for a browser without `linear()`. */
+  --emi-dur: 520ms;
+  --emi-ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* A `shift` part easing back when the pointer leaves: quicker, and with no bounce. */
+  --emi-back: 260ms;
+  --emi-ease-back: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :where(:root) {
+    --emi-ease: linear(
+      0,
+      0.086,
+      0.279,
+      0.502,
+      0.706,
+      0.868,
+      0.981,
+      1.048,
+      1.078,
+      1.083,
+      1.073,
+      1.055,
+      1.037,
+      1.021,
+      1.008,
+      1,
+      0.995,
+      0.993,
+      0.993,
+      0.994,
+      0.996,
+      0.997,
+      0.999,
+      1,
+      1
+    );
+  }
+}
+
+/* A part may move a unit or two past the box; the svg must not clip it. */
+.emi-icon {
+  overflow: visible;
+}
+
+/* `m()` writes each part's transform-origin in viewBox units, which is what `view-box` measures them from. */
+.emi-icon [data-m] {
+  transform-box: view-box;
+}
+
+.emi-icon [data-m='shift'] {
+  transition: transform var(--emi-back) var(--emi-ease-back);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='shift'] {
+    transform: translate(var(--emi-x, 0px), var(--emi-y, 0px)) rotate(var(--emi-r, 0deg))
+      scale(var(--emi-s, 1));
+    transition: transform var(--emi-dur) var(--emi-ease) var(--emi-d, 0ms);
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='hop'] {
+    animation: emi-hop var(--emi-dur) var(--emi-d, 0ms) both;
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='pop'] {
+    animation: emi-pop var(--emi-dur) var(--emi-d, 0ms) both;
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='spin'] {
+    animation: emi-spin 640ms var(--emi-ease) var(--emi-d, 0ms);
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='swing'] {
+    animation: emi-swing 760ms ease-in-out var(--emi-d, 0ms) both;
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='shake'] {
+    animation: emi-shake 480ms ease-in-out var(--emi-d, 0ms) both;
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='draw'] {
+    animation: emi-draw 480ms cubic-bezier(0.4, 0, 0.2, 1) var(--emi-d, 0ms) both;
+  }
+
+  :where(
+      a,
+      button,
+      [role='button'],
+      [role='tab'],
+      [role='menuitem'],
+      [role='option'],
+      label,
+      summary,
+      [data-icon-trigger]
+    ):where(:hover, :focus-visible):not(:disabled, [data-disabled], [aria-disabled='true'])
+    .emi-icon
+    [data-m='blink'] {
+    animation: emi-blink 380ms ease-in-out var(--emi-d, 0ms) both;
+  }
+}
+
+/* Out to the offset on an ease-out, then home on the spring, which carries it a touch past rest and back. */
+@keyframes emi-hop {
+  0% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  38% {
+    transform: translate(var(--emi-x, 0px), var(--emi-y, -2px)) rotate(var(--emi-r, 0deg))
+      scale(var(--emi-s, 1));
+    animation-timing-function: var(--emi-ease);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes emi-pop {
+  0% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  36% {
+    transform: translate(var(--emi-x, 0px), var(--emi-y, -1.5px)) rotate(var(--emi-r, 0deg))
+      scale(var(--emi-s, 1.1));
+    animation-timing-function: var(--emi-ease);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes emi-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(var(--emi-r, 360deg));
+  }
+}
+
+@keyframes emi-swing {
+  0%,
+  100% {
+    transform: none;
+  }
+  18% {
+    transform: rotate(var(--emi-r, 12deg));
+  }
+  42% {
+    transform: rotate(calc(var(--emi-r, 12deg) * -0.65));
+  }
+  64% {
+    transform: rotate(calc(var(--emi-r, 12deg) * 0.35));
+  }
+  84% {
+    transform: rotate(calc(var(--emi-r, 12deg) * -0.12));
+  }
+}
+
+@keyframes emi-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  15% {
+    transform: translateX(var(--emi-x, 0px)) rotate(var(--emi-r, 8deg));
+  }
+  32% {
+    transform: translateX(calc(var(--emi-x, 0px) * -0.8)) rotate(calc(var(--emi-r, 8deg) * -0.8));
+  }
+  50% {
+    transform: translateX(calc(var(--emi-x, 0px) * 0.55)) rotate(calc(var(--emi-r, 8deg) * 0.55));
+  }
+  68% {
+    transform: translateX(calc(var(--emi-x, 0px) * -0.3)) rotate(calc(var(--emi-r, 8deg) * -0.3));
+  }
+  84% {
+    transform: translateX(calc(var(--emi-x, 0px) * 0.1)) rotate(calc(var(--emi-r, 8deg) * 0.1));
+  }
+}
+
+/* `m('draw')` gives the part `pathLength=1`, so a dash of 1 is the whole stroke and an offset of 1 hides it. */
+@keyframes emi-draw {
+  from {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes emi-blink {
+  0%,
+  100% {
+    transform: none;
+  }
+  45%,
+  58% {
+    transform: scaleY(0.1);
+  }
+}

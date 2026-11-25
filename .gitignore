@@ -1,0 +1,7 @@
+node_modules/
+dist/
+# `npm run gallery` writes it: a review aid, not a build output.
+gallery.html
+*.tgz
+.DS_Store
+.ci/
