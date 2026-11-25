@@ -6,6 +6,12 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- The gallery is a page that follows the viewer's light or dark setting. Controls on the page
+  switch the segment and freeze every motion. It can be published as it is, and the query
+  parameters still work for headless screenshots.
+
 ## [0.1.0] - 2026-11-25
 
 ### Added
