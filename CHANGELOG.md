@@ -6,6 +6,12 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Wheelchair, under Tabler's name: an empty wheelchair facing right, for the seats a venue marks
+  accessible (TicketOps' Show accessible seats switch and the seat card). It rolls forward on hover;
+  the big wheel carries the cut, low on its right, clear of the frame that meets it. 196 icons in all.
+
 ## [0.5.0] - 2026-11-27
 
 ### Added
