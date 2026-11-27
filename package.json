@@ -1,6 +1,6 @@
 {
   "name": "@eightmile/icons",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Eight Mile's icons, each in three segments: dynamic (its parts move when its control is hovered), static, and cropped (broken strokes).",
   "license": "MIT",
   "author": "Ibi Hasanli",

@@ -6,6 +6,8 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-27
+
 ### Added
 
 - BrandLinkedin, under Tabler's name: LinkedIn's own mark, unaltered, from simple-icons 10.4.0,
