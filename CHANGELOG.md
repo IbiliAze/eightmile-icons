@@ -6,6 +6,8 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-27
+
 ### Added
 
 - Wheelchair, under Tabler's name: an empty wheelchair facing right, for the seats a venue marks
