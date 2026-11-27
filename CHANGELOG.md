@@ -6,6 +6,8 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-27
+
 ### Added
 
 - ShieldX and ShieldQuestion, beside ShieldCheck, so acs-ui's live map can say whether a reader would carry on if
