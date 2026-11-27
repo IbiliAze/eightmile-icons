@@ -1,6 +1,6 @@
 # @eightmile/icons
 
-Eight Mile's icons: 190 of them, in 15 groups. Each comes in three segments, and each segment
+Eight Mile's icons: 192 of them, in 15 groups. Each comes in three segments, and each segment
 exports it under the same name, so changing segment means changing the import path.
 
 | Segment     | What it is                                                                      | Import from                |

@@ -6,6 +6,12 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- ShieldX and ShieldQuestion, beside ShieldCheck, so acs-ui's live map can say whether a reader would carry on if
+  its server went down, would stop, or can't be told. The same shield and cut as ShieldCheck; the cross shakes as
+  CircleX's does, and the question mark tilts as HelpCircle's does. 192 icons in all.
+
 ## [0.2.0] - 2026-11-27
 
 ### Added
