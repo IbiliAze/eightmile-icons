@@ -6,6 +6,8 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-27
+
 ### Added
 
 - LayoutSidebarLeftCollapse and LayoutSidebarLeftExpand, under Tabler's names, for the button that
