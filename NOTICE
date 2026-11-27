@@ -2,8 +2,9 @@
 
 The drawings are Eight Mile's own and are released under the MIT licence in LICENSE.
 
-The brand marks (src/icons/brands/) are not. Each is its brand's official mark, unaltered,
-taken from simple-icons (https://simpleicons.org), whose SVG data is CC0 1.0. The marks remain
-the trademarks of their owners: Apple, Meta (Facebook, Instagram), Google (Google, YouTube),
-TikTok, X Corp. and GitHub. Using one is subject to its owner's brand guidelines, which
+The brand marks (src/icons/brands/) are not. Each is its brand's official mark, unaltered, taken
+from simple-icons (https://simpleicons.org), whose SVG data is CC0 1.0. The marks remain the
+trademarks of their owners: Apple, Meta (Facebook, Instagram), Google (Google, YouTube), TikTok,
+X Corp., GitHub and LinkedIn. LinkedIn's comes from simple-icons 10.4.0, the last release before
+LinkedIn had it removed there. Using one is subject to its owner's brand guidelines, which
 generally allow linking to that brand's page. The MIT licence grants no right in any of them.

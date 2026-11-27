@@ -6,6 +6,13 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- BrandLinkedin, under Tabler's name: LinkedIn's own mark, unaltered, from simple-icons 10.4.0,
+  the last release before LinkedIn had it removed there. It was the one TicketOps icon not carried
+  over in 0.1.0, so TicketOps can now draw from this package alone. It pops on hover like the other
+  brand marks. 195 icons in all.
+
 ## [0.4.0] - 2026-11-27
 
 ### Added
