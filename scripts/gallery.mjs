@@ -155,7 +155,7 @@ const html = `<meta charset="utf-8">
 </header>
 <nav class="groups" aria-label="Groups">${groups.map(group => `<a href="#${group.id}">${group.label}</a>`).join('')}</nav>
 ${sections}
-<footer>Brand marks are their owners' trademarks and are never cut; icons made only of dots have nothing to cut.</footer>
+<footer>Brand marks are their owners' trademarks and are never cut; icons with no stroke long enough to cut, such as dots and dashes, have nothing to cut.</footer>
 </div>
 <script>
   const q = new URLSearchParams(location.search);

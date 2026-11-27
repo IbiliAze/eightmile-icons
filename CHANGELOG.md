@@ -6,11 +6,23 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- 27 icons, under Tabler's names, so that acs-ui can draw only from this package: Scan,
+  TextScan2, FocusCentered, PlayerPlay, PlayerPause, PlayerStop, UserShield, Note, ExternalLink,
+  DeviceCameraPhone, Cloud, AlertOctagon, Dashboard, TopologyStar3, Restore, PlugConnectedX,
+  LayoutGrid, LayoutGridAdd, LayoutDashboard, LayersSubtract, Flag, FileText, ClockCheck,
+  CircleX, CircleDashed, ArrowsMaximize and ArrowsMinimize. 190 icons in all.
+
 ### Changed
 
 - The gallery is a page that follows the viewer's light or dark setting. Controls on the page
   switch the segment and freeze every motion. It can be published as it is, and the query
   parameters still work for headless screenshots.
+- An icon is left uncut when no stroke in it is long enough to cut (11 units), not only when it
+  is made of dots. This is what the tests already measured. CircleDashed is the first such icon
+  that isn't dots: its dashes are too short, and its gaps are already its breaks. The test now
+  measures every subpath of a path, so a long stroke drawn after a dot can no longer pass uncut.
 
 ## [0.1.0] - 2026-11-25
 

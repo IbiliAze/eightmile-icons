@@ -1,6 +1,6 @@
 # @eightmile/icons
 
-Eight Mile's icons: 163 of them, in 15 groups. Each comes in three segments, and each segment
+Eight Mile's icons: 190 of them, in 15 groups. Each comes in three segments, and each segment
 exports it under the same name, so changing segment means changing the import path.
 
 | Segment     | What it is                                                                      | Import from                |
@@ -94,7 +94,8 @@ outline, towards the upper right wherever the drawing allows, so the set shares 
 Some icons are never cut:
 
 - **Brand marks** are official artwork, so a brand's cropped form is its static one.
-- **Icons made only of dots** have nothing to cut.
+- **Icons with no stroke long enough to cut,** such as a grid of dots or a dashed circle, have
+  nothing to cut. A dashed circle's own gaps are its breaks.
 
 ## Groups
 
@@ -110,7 +111,7 @@ import { GROUPS } from '@eightmile/icons';
 
 ```bash
 npm ci
-npm test          # builds, then 1,600-odd tests over every icon in every segment
+npm test          # builds, then 1,900-odd tests over every icon in every segment
 npm run gallery   # writes gallery.html: every icon, grouped, its three segments side by side
 ```
 

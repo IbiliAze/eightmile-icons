@@ -73,7 +73,10 @@ description: Draw a new icon, or change an icon's drawing, its hover motion, its
    - **What is reported.** `planCut` reports a piece under 3 units, a gap reaching an open
      stroke's end, a `near` more than 1.5 from the outline, or a shape it cannot cut. The tests
      require none.
-   - **What is never cut.** A brand mark, and an icon that is only dots.
+   - **What is never cut.** A brand mark, and an icon with no stroke of 11 units, the least a cut
+     takes: one made only of dots, or of dashes, as the dashed circle is. The test measures each
+     subpath of a path as its own stroke, so a long stroke can't pass uncut behind a short one.
+     Don't break a stroke into dashes to dodge a cut; draw dashes only where the icon means them.
 6. **Look at it.** Run `npm run gallery` and open `gallery.html`.
    - `?only=Kite` shows just that icon, with its three segments side by side.
    - `?segment=cropped` judges the cut at 52px. Then check that it still reads as a gap, not a

@@ -7,9 +7,9 @@ import { svgPathProperties } from 'svg-path-properties';
 import { describe, expect, it } from 'vitest';
 import { createIcon } from './create.js';
 import { GAP, MIN_DASH, planCut, type CutOptions } from './cut.js';
-import { isShape, outline, rectPath } from './geometry.js';
+import { flattenPath, isShape, outline, polylineLength, rectPath } from './geometry.js';
 import { GROUPS } from './groups.js';
-import type { IconSource } from './icon.js';
+import { icon, type IconSource } from './icon.js';
 import { m, MOTIONS, still } from './motion.js';
 import { pascal, SEGMENTS, type Icon, type Segment } from './render.js';
 import { uncut } from './uncut.js';
@@ -63,12 +63,26 @@ const cutsOf = (source: IconSource) => {
   return cuts;
 };
 
-/** Long enough for a gap and a piece of stroke either side of it. */
+/**
+ * The length of every stroke a shape draws: each drawing subpath of a path, the outline of any
+ * other shape. A path's later subpaths count too, so a long stroke can't hide behind a dot.
+ */
+const strokeLengths = (shape: ReactElement): number[] => {
+  const props = shape.props as Record<string, unknown>;
+  if (shape.type === 'path') {
+    return flattenPath(String(props['d'] ?? ''))
+      .filter(subpath => subpath.points.length > 1)
+      .map(subpath => polylineLength(subpath.points, subpath.closed));
+  }
+  const shapeOutline = outline(shape.type, props);
+  return shapeOutline === undefined ? [] : [shapeOutline.length];
+};
+
+/** Has a stroke long enough for a gap and a piece of stroke either side of it. */
 const cuttable = (source: IconSource) =>
-  shapesOf(source.draw(still, uncut)).some(shape => {
-    const shapeOutline = outline(shape.type, shape.props as Record<string, unknown>);
-    return shapeOutline !== undefined && shapeOutline.length >= GAP + 2 + 2 * MIN_DASH;
-  });
+  shapesOf(source.draw(still, uncut)).some(shape =>
+    strokeLengths(shape).some(length => length >= GAP + 2 + 2 * MIN_DASH),
+  );
 
 describe('the set', () => {
   it('holds every icon', () => {
@@ -153,7 +167,7 @@ describe('the cropped segment', () => {
     expect(render(segment(drawing, 'cropped'))).not.toContain('data-m=');
   });
 
-  it.each(table)('%s is cut, unless it is a brand mark or only dots', (_, drawing) => {
+  it.each(table)('%s is cut, unless a brand mark or no stroke is long enough', (_, drawing) => {
     const markup = render(segment(drawing, 'cropped'));
     if (drawing.source.fill) {
       // A brand mark is the brand's own artwork and is never altered.
@@ -167,6 +181,12 @@ describe('the cropped segment', () => {
     } else {
       expect(cutsOf(drawing.source)).toEqual([]);
     }
+  });
+
+  it('counts every stroke of a path, so a long one drawn after a dot is still owed a cut', () => {
+    const drawn = (d: string) => icon(() => createElement('path', { d }));
+    expect(cuttable(drawn('M12 8h.01M5 12h14'))).toBe(true);
+    expect(cuttable(drawn('M5 6h.01M5 12h.01M5 18h.01'))).toBe(false);
   });
 
   it.each(table)('%s has only cuts that plan cleanly', (_, drawing) => {

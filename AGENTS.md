@@ -45,7 +45,9 @@ These are not preferences. Each has a test.
    `prefers-reduced-motion: no-preference`, and nothing moves inside a disabled control.
 3. **Every icon is cut in the cropped segment,** with two exceptions:
    - A brand mark is official artwork: it is never cut, and its cropped markup is its static markup.
-   - An icon made only of dots has nothing long enough to cut.
+   - An icon with no stroke long enough to cut. A cut takes 11 units of one stroke: the 3-unit gap,
+     a unit under each round cap, and a 3-unit piece either side. Dots are shorter, and so are the
+     dashes of a dashed circle, whose own gaps already break it. Each subpath is its own stroke.
 
    A cut goes on one shape element with a single drawing subpath, never on a `g`. Each gap is
    3 units at stroke 2. Each piece of stroke it leaves is at least 3 units, and no gap reaches an
