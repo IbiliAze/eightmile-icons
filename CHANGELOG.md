@@ -6,6 +6,13 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- LayoutSidebarLeftCollapse and LayoutSidebarLeftExpand, under Tabler's names, for the button that
+  folds a dashboard's menu down to its icons and opens it out again (acs-ui and the ticketops
+  dashboards). A panel with its sidebar's edge and a chevron; on hover the edge slides the way the
+  sidebar goes and the chevron follows. 194 icons in all.
+
 ## [0.3.0] - 2026-11-27
 
 ### Added
