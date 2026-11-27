@@ -6,6 +6,8 @@ All notable changes to `@eightmile/icons`. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-27
+
 ### Added
 
 - 27 icons, under Tabler's names, so that acs-ui can draw only from this package: Scan,
